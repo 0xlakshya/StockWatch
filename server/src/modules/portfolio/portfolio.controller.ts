@@ -1,5 +1,6 @@
 import { Response, NextFunction } from "express";
 import { AuthenticatedRequest } from "../../types";
+import { SEED_HISTORICAL_PRICES } from "../../lib/constants";
 
 export const getHoldingsController = async (
   req: AuthenticatedRequest,
@@ -39,4 +40,14 @@ export const getHoldingsController = async (
     ],
   };
   res.json(mock);
+};
+
+export const getHistoricalPriocesController = async (
+  req: AuthenticatedRequest,
+  res: Response,
+  next: NextFunction
+) => {
+  //mock response
+  const data = SEED_HISTORICAL_PRICES;
+  res.send({ status: "success", data });
 };

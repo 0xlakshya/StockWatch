@@ -7,7 +7,7 @@ export const placeOrderController = async (
   res: Response,
   next: NextFunction
 ) => {
-  const order_id = crypto.randomBytes(16).toString();
+  const order_id = crypto.randomBytes(16).toString("hex");
   res.json({
     status: "success",
     data: {

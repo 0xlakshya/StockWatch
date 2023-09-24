@@ -30,7 +30,11 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     const token = localStorage.getItem("token");
     try {
       if (token) {
-        const { data } = await axios.get(`${API}/user/profile`);
+        const { data } = await axios.get(`${API}/user/profile`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
         setUser(data.data);
         setIsAuthenticated(true);
       }

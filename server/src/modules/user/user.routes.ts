@@ -18,6 +18,7 @@ router.post(
   signupController
 );
 
+
 router.post("/login", validate(loginSchema), loginController);
 
 router.get("/profile", verifyToken, profileController);

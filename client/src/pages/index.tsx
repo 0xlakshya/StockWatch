@@ -1,4 +1,7 @@
+import { useAuth } from "@/contexts/AuthContext";
+
 export default function Home() {
+  const auth = useAuth();
   return (
     <main
       className={`flex min-h-screen flex-col items-center justify-between p-24`}
@@ -8,7 +11,9 @@ export default function Home() {
           <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
             Profile
           </h5>
-          <p className="font-normal text-gray-700 dark:text-gray-400"></p>
+          <p className="font-normal text-gray-700 dark:text-gray-400">
+            Email:{auth?.user?.email}
+          </p>
         </div>
       </div>
     </main>

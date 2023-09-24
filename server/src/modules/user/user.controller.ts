@@ -73,10 +73,8 @@ export const profileController = async (
   try {
     //authenticated user has email set
     const email = req.email;
-    const user = User.findAll({
-      where: {
-        email,
-      },
+    const user = await User.findOne({
+      where: { email },
     });
     if (!user) {
       throw { code: 404, message: "User not found" };
@@ -84,7 +82,13 @@ export const profileController = async (
     const { user_id, user_type, user_name, broker } = user;
     return res.json({
       status: "success",
-      data: { user_id, email, user_type, user_name, broker },
+      data: {
+        user_id,
+        email,
+        user_type,
+        user_name,
+        broker,
+      },
     });
   } catch (error: any) {
     return res

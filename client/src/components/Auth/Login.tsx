@@ -34,6 +34,13 @@ const Login: React.FC<LoginProps> = (props) => {
     };
     auth?.login(formData);
   };
+  const testLogin = () => {
+    const formData = {
+      password: "test",
+      user_name: "test",
+    };
+    auth?.login(formData);
+  };
   return (
     <form onSubmit={loginHandler}>
       <CardHeader>
@@ -64,7 +71,9 @@ const Login: React.FC<LoginProps> = (props) => {
         </h2>
       </CardContent>
       <CardFooter className="flex justify-between">
-        <Button variant="outline">Test Login</Button>
+        <Button variant="outline" onClick={testLogin}>
+          Test Login
+        </Button>
         <Button className="" type="submit">
           Submit
         </Button>

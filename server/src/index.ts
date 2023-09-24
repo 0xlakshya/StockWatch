@@ -1,8 +1,12 @@
 import express, { Request, Response, Application } from "express";
 import cors from "cors";
 import helmet from "helmet";
-import { PORT } from "./constants";
-import routes from "./routes";
+import { PORT } from "./lib/constants";
+import routes from "./lib/routes";
+import { sequelize } from "./db";
+import User from "./db/models/user";
+import Price from "./db/models/price";
+import holding from "./db/models/holding";
 
 const app: Application = express();
 
@@ -10,7 +14,17 @@ app.use(helmet());
 app.use(cors());
 app.use(express.json());
 
-app.use("/api", routes);
+// app.use("/api", routes);
+routes(app);
+
+(async () => {
+  try {
+    await sequelize.sync({ force: false }); // Set force to true if you want to drop and recreate tables
+    console.log("Database tables created!");
+  } catch (error) {
+    console.error("Error creating database tables:", error);
+  }
+})();
 
 app.get("/", async (req, res, next) => {
   try {

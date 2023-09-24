@@ -1,32 +1,48 @@
-import ReactECharts from "echarts-for-react";
+import React from "react";
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend,
+} from "chart.js";
+import { Line } from "react-chartjs-2";
+
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend
+);
 
 function HistoricalGraph(props: { data?: IHistorical[] | null }) {
-  const dates = props.data?.map((item) => item.date);
+  const labels = props.data?.map((item) => item.date.toLocaleString());
+  console.log(labels);
   const prices = props.data?.map((item) => item.price);
-  const option = {
-    xAxis: {
-      type: "Dates",
-      boundaryGap: false,
-      data: dates,
-    },
-    yAxis: {
-      type: "Prices",
-    },
-    series: [
+  const data = {
+    labels,
+    datasets: [
       {
+        label: "Prices",
         data: prices,
-        type: "line",
-        areaStyle: {},
+        borderColor: "rgb(255, 99, 132)",
+        backgroundColor: "rgba(255, 99, 132, 0.5)",
       },
     ],
   };
 
   return (
-    <div>
-      <h1 className=" text-2xl font-semibold leading-none tracking-tight my-2">
+    <div className="max-h-[50vh] pb-5">
+      <h1 className=" text-2xl font-semibold leading-none tracking-tight my-2 ">
         NIFTY 50
       </h1>
-      <ReactECharts option={option} />
+      {props.data && <Line data={data} />}
     </div>
   );
 }

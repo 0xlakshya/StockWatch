@@ -48,6 +48,6 @@ export const getHistoricalPriocesController = async (
   next: NextFunction
 ) => {
   //mock response
-  const data = SEED_HISTORICAL_PRICES;
+  const data = SEED_HISTORICAL_PRICES.slice(-15);
   res.send({ status: "success", data });
 };

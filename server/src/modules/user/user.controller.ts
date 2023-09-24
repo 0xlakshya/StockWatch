@@ -22,8 +22,12 @@ export const signupController = async (
       user_name,
       broker,
     });
-
-    res.json({ email, user_type, user_name, broker });
+    if (user) {
+      const token = jwt.sign({ email: user.email }, "myjwtsecretthelongway", {
+        expiresIn: 86400, // 24 hours
+      });
+      res.json({ token });
+    }
   } catch (error) {
     res.status(500).send({ message: error });
   }

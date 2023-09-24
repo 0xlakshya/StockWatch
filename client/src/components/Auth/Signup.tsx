@@ -22,13 +22,14 @@ import {
 } from "../ui/select";
 import { Input } from "../ui/input";
 import { RadioGroup, RadioGroupItem } from "../ui/radio-group";
+import { useAuth } from "@/contexts/AuthContext";
 
 type SignupProps = {
   showLogin: () => void;
 };
 
 const Signup: React.FC<SignupProps> = (props) => {
-    const auth = useAuth();
+  const auth = useAuth();
   const [broker, setBroker] = useState("Zerodha");
   const [type, setType] = useState("individual");
   const signupHandler = (e: any) => {
@@ -40,7 +41,7 @@ const Signup: React.FC<SignupProps> = (props) => {
       broker,
       type,
     };
-    console.log({ formData });
+    auth?.signup(formData);
   };
   return (
     <form onSubmit={signupHandler}>

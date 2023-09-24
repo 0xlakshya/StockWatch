@@ -12,7 +12,8 @@ export const validate = (schema: Schema, property?: unknown) => {
     const { error, value } = schema.validate(req.body, options);
 
     if (error) {
-      return res.status(400).send({ error });
+      const message = error.details.map((e) => e.message.replace(/"/g, "'"));
+      return res.status(400).send({ message });
     } else {
       req.body = value;
       next();

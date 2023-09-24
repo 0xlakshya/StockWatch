@@ -4,6 +4,7 @@ import { NextFunction, Response } from "express";
 import User from "../../db/models/user";
 import { hashPassword } from "./user.helper";
 import { JWT_SECRET } from "../../lib/config";
+import { AuthenticatedRequest } from "../../types";
 
 export const signupController = async (
   req: any,
@@ -61,5 +62,33 @@ export const loginController = async (
     return res
       .status(error.code ?? 500)
       .send({ message: error.message ?? "Server Error" });
+  }
+};
+
+export const profileController = async (
+  req: AuthenticatedRequest,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    //authenticated user has email set
+    const email = req.email;
+    const user = User.findAll({
+      where: {
+        email,
+      },
+    });
+    if (!user) {
+      throw { code: 404, message: "User not found" };
+    }
+    const { user_id, user_type, user_name, broker } = user;
+    return res.json({
+      status: "success",
+      data: { user_id, email, user_type, user_name, broker },
+    });
+  } catch (error: any) {
+    return res
+      .status(error.code ?? 500)
+      .send({ message: error.message ?? "Server Error", status: "error" });
   }
 };

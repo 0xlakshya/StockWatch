@@ -6,8 +6,9 @@ Tech Stack : TypeScript , NextJS, NodeJS , Express , TailwindCSS, Sequelize, SQL
 
 ## Setup
 
+Clone Repository 
 ```
-git clone
+git clone https://github.com/lakshya-dhariwal/StockWatch.git
 cd server
 ```
 
@@ -31,7 +32,7 @@ cd client
 add env for client
 
 ```
-NEXT_PUBLIC_BACKEND='<backend_url>'
+NEXT_PUBLIC_API='http://localhost:8000/api'
 ```
 
 then

@@ -37,9 +37,9 @@ const Signup: React.FC<SignupProps> = (props) => {
     const formData = {
       email: e.target.elements.email.value,
       password: e.target.elements.password.value,
-      username: e.target.elements.username.value,
+      user_name: e.target.elements.username.value,
       broker,
-      type,
+      user_type: type,
     };
     auth?.signup(formData);
   };

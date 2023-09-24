@@ -6,6 +6,7 @@ import toast from "react-hot-toast";
 interface AuthContextModel {
   login: (loginData: userLoginFormDataModel) => any;
   signup: (signupData: userSignupFormDataModel) => any;
+  isAuthenticated: boolean;
   //   logout: () => void;
   //   isAuthenticated: () => boolean;
   //   toggleAuthModal: () => void;
@@ -19,7 +20,7 @@ export function useAuth() {
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const [authenticated, setAuthenticated] = useState<boolean>(false);
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   const [authLoading, setAuthLoading] = useState<boolean>(false);
   const login = async (loginData: userLoginFormDataModel) => {
     try {
@@ -30,35 +31,34 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
       localStorage.setItem("token", token);
       axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
       toast.success("Successfully logged in");
-      setAuthenticated(true);
+      setIsAuthenticated(true);
       return data;
-    } catch (e) {
-      throw e;
+    } catch (e: any) {
+      toast.error(e.message ?? "Failed to signup");
+      console.log("error in auth login ", e);
     }
   };
 
   const signup = async (signupData: userSignupFormDataModel) => {
     try {
-      const { data } = await axios.post(`${API}/user/register`, {
-        user_name: signupData.username,
-        ...signupData,
-      });
+      const { data } = await axios.post(`${API}/user/register`, signupData);
       const { token } = data;
       localStorage.setItem("token", token);
       axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
       toast.success("Successfully signed up");
 
-      setAuthenticated(true);
+      setIsAuthenticated(true);
       return { data };
-    } catch (e) {
+    } catch (e: any) {
+      toast.error(e.message ?? "Failed to signup");
       console.log("error in auth signup ", e);
-      throw e;
     }
   };
 
   const value = {
     login,
     signup,
+    isAuthenticated,
   };
 
   return (

@@ -1,12 +1,12 @@
 type userSignupFormDataModel = {
   email: string;
   password: string;
-  username: string;
+  user_name: string;
   broker: string;
-  type: string;
+  user_type: string;
 };
 
 type userLoginFormDataModel = {
   password: string;
-  username: string;
+  user_name: string;
 };

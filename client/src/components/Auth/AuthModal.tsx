@@ -20,18 +20,14 @@ import { Select } from "../ui/select";
 import { Input } from "../ui/input";
 import Login from "./Login";
 import Signup from "./Signup";
+import { useAuth } from "@/contexts/AuthContext";
 
 const LoginModal = () => {
-  const [showLoginModal, setShowLoginModal] = useState(false);
+  const auth = useAuth();
   const [tab, setTab] = useState<"login" | "signup">("login");
-  useEffect(() => {
-    setTimeout(() => {
-      setShowLoginModal(true);
-    }, 1000);
-  }, []);
   return (
     <>
-      {showLoginModal && (
+      {!auth?.isAuthenticated && (
         <Modal closeOnOutsideClick={false}>
           <Card className="w-[300px] sm:w-[450px]">
             {tab === "login" && (

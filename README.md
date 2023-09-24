@@ -45,4 +45,4 @@ yarn && yarn start
 
 ![dashboard](/demo/dashboard.png)
 ![login](/demo/login.png)
-![signup](/demo/signup.png)
+![signup](/demo/register.png)

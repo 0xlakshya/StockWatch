@@ -2,8 +2,8 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { NextFunction, Response } from "express";
 import User from "../../db/models/user";
-import { hashPassword } from "./auth.helper";
-import { JWT_SECRET } from "../../lib/constants";
+import { hashPassword } from "./user.helper";
+import { JWT_SECRET } from "../../lib/config";
 
 export const signupController = async (
   req: any,
@@ -53,13 +53,10 @@ export const loginController = async (
       throw { code: 401, message: "Invalid Password" };
     }
 
-    const token = jwt.sign({ id: user.id }, JWT_SECRET, {
-      algorithm: "HS256",
-      allowInsecureKeySizes: true,
+    const token = jwt.sign({ email: user.email }, "myjwtsecretthelongway", {
       expiresIn: 86400, // 24 hours
     });
-    const { password, ...userWithoutPassword } = user;
-    res.json({ user: userWithoutPassword, token });
+    res.json({ token });
   } catch (error: any) {
     return res
       .status(error.code ?? 500)

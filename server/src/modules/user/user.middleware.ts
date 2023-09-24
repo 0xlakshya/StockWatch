@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import jwt, { JwtPayload } from "jsonwebtoken";
 import User from "../../db/models/user";
-import { JWT_SECRET } from "../../lib/constants";
+import { JWT_SECRET } from "../../lib/config";
 import { AuthenticatedRequest } from "../../types";
 
 export const verifyToken = (
@@ -9,7 +9,7 @@ export const verifyToken = (
   res: Response,
   next: NextFunction
 ) => {
-  const token = req.headers.authorization;
+  const token = req.headers.authorization?.split(" ")[1];
 
   if (!token) {
     return res.status(403).send({
@@ -17,13 +17,16 @@ export const verifyToken = (
     });
   }
 
-  jwt.verify(token, JWT_SECRET, (err, decoded) => {
+  jwt.verify(token, "myjwtsecretthelongway", (err, decoded) => {
     if (err) {
       return res.status(401).send({
+        err,
+        token,
+        status: "failed",
         message: "Authentication failed",
       });
     }
-    req.userId = (decoded as JwtPayload).id;
+    req.email = (decoded as JwtPayload).email;
     next();
   });
 };

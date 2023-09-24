@@ -1,12 +1,10 @@
 import express, { Request, Response, Application } from "express";
 import cors from "cors";
 import helmet from "helmet";
-import { PORT } from "./lib/constants";
+import { PORT } from "./lib/config";
 import routes from "./lib/routes";
 import { sequelize } from "./db";
-import User from "./db/models/user";
-import Price from "./db/models/price";
-import holding from "./db/models/holding";
+import { seedTestUserInDb } from "./db/seed";
 
 const app: Application = express();
 
@@ -37,4 +35,5 @@ app.get("/", async (req, res, next) => {
 
 app.listen(PORT, () => {
   console.log(`Listening on port ${PORT}`);
+  seedTestUserInDb();
 });

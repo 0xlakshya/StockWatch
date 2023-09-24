@@ -13,7 +13,7 @@ export const signupController = async (
   try {
     const { email, password, user_type, user_name, broker } = req.body;
 
-    const hashedPassword = hashPassword(password);
+    const hashedPassword = await hashPassword(password);
     const user = await User.create({
       email,
       password: hashedPassword,
@@ -21,7 +21,8 @@ export const signupController = async (
       user_name,
       broker,
     });
-    res.json(user);
+
+    res.json({ email, user_type, user_name, broker });
   } catch (error) {
     res.status(500).send({ message: error });
   }
@@ -35,7 +36,7 @@ export const loginController = async (
   try {
     const user = await User.findOne({
       where: {
-        username: req.body.username,
+        user_name: req.body.user_name,
       },
     });
 
@@ -57,7 +58,8 @@ export const loginController = async (
       allowInsecureKeySizes: true,
       expiresIn: 86400, // 24 hours
     });
-    res.json({ user, token });
+    const { password, ...userWithoutPassword } = user;
+    res.json({ user: userWithoutPassword, token });
   } catch (error: any) {
     return res
       .status(error.code ?? 500)

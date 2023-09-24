@@ -34,12 +34,12 @@ export const checkExistingUsernameOrEmail = async (
   next: NextFunction
 ) => {
   try {
-    const { username, email } = req.body;
+    const { user_name, email } = req.body;
 
     // Username
     let user = await User.findOne({
       where: {
-        username,
+        user_name,
       },
     });
     if (user) {
@@ -62,6 +62,7 @@ export const checkExistingUsernameOrEmail = async (
 
     next();
   } catch (error) {
+    console.log(error);
     return res.status(500).send({
       message: "Unable to validate username or email!",
     });
